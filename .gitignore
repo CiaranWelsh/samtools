@@ -28,3 +28,8 @@ lib*.a
 .autotools
 .cproject
 .project
+
+
+.idea
+cmake-*
+install-*
