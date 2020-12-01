@@ -51,7 +51,18 @@ find_package(BZip2 REQUIRED)
 find_package(LibLZMA REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(CURL REQUIRED)
-find_package(lz4 CONFIG REQUIRED)
+
+# on linux we can use sudo apt install liblz4-dev to install lz4
+#   and then it will be found by find_library
+find_library(LZ4_LIBRARY NAMES "${CMAKE_SHARED_LIBRARY_PREFIX}lz4${CMAKE_SHARED_LIBRARY_SUFFIX}")
+
+# On windows we have no such option, so we need to build
+# lz4 ourselves. The easiest way is to use vcpkg.
+#   vcpkg install liblz4:x64-linux-static (or whatever VCPKG_TARGET_TRIPLET you are using)
+if (NOT LZ4_LIBRARY)
+    find_package(lz4 CONFIG)
+endif()
+
 # note, it seems that on windows and linux, openssl is a requirement for HMAC
 # while on apple we instead need common crypto (a note from from htslib cmake script)
 find_package(OpenSSL)
