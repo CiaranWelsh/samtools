@@ -34,8 +34,8 @@ DEALINGS IN THE SOFTWARE.  */
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <getopt.h>
+#include <linux2win/linux2win_unistd.h>
+#include <linux2win/linux2win_getopt.h>
 #include <assert.h>
 #include <pthread.h>
 #include <inttypes.h>

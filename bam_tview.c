@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <config.h>
 
-#include <regex.h>
+#include <linux2win/linux2win_regex.h>
 #include <assert.h>
 #include "bam_tview.h"
 #include <htslib/faidx.h>

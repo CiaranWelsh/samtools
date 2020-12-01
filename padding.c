@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <string.h>
 #include <assert.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <inttypes.h>
 #include <htslib/kstring.h>
 #include <htslib/sam.h>

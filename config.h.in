@@ -46,23 +46,39 @@
 /* Define to 1 if <ncurses.h> is present */
 #cmakedefine HAVE_NCURSES_H
 
+/* Define to 1 if <regex.h> is present */
+#cmakedefine HAVE_REGEX_H
+
 /* Define to the address where bug reports for this package should be sent. */
-#cmakedefine PACKAGE_BUGREPORT @PACKAGE_BUGREPORT@
+/* Define to the full name of this package. */
+#ifndef PACKAGE_BUGREPORT
+#   cmakedefine PACKAGE_BUGREPORT @PACKAGE_BUGREPORT@
+#endif
 
 /* Define to the full name of this package. */
-#cmakedefine PACKAGE_NAME @PACKAGE_NAME@
+#ifndef PACKAGE_NAME
+#   cmakedefine PACKAGE_NAME @PACKAGE_NAME@
+#endif
 
 /* Define to the full name and version of this package. */
-#cmakedefine PACKAGE_STRING @PACKAGE_STRING@
+#ifndef PACKAGE_STRING
+#   cmakedefine PACKAGE_STRING @PACKAGE_STRING@
+#endif
 
 /* Define to the one symbol short name of this package. */
-#cmakedefine PACKAGE_TARNAME @PACKAGE_TARNAME@
+#ifndef PACKAGE_TARNAME
+#   cmakedefine PACKAGE_TARNAME @PACKAGE_TARNAME@
+#endif
 
 /* Define to the home page for this package. */
-#cmakedefine PACKAGE_URL @PACKAGE_URL@
+#ifndef PACKAGE_URL
+#   cmakedefine PACKAGE_URL @PACKAGE_URL@
+#endif
 
 /* Define to the version of this package. */
-#cmakedefine PACKAGE_VERSION @PACKAGE_VERSION@
+#ifndef PACKAGE_VERSION
+#   cmakedefine PACKAGE_VERSION @PACKAGE_VERSION@
+#endif
 
 /* Enable large inode numbers on Mac OS X 10.5.  */
 #ifndef _DARWIN_USE_64_BIT_INODE

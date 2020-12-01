@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include "../../bam_split.c"
 #include "../test.h"
 #include <stdlib.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 
 void setup_test_1(int* argc, char*** argv)
 {

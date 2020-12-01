@@ -11,6 +11,8 @@ set(VERSION "${SAMTOOLS_VERSION_MAJOR}.${SAMTOOLS_VERSION_MINOR}.${SAMTOOLS_VERS
 
 project(samtools-cmake VERSION ${VERSION})
 
+set(CMAKE_CXX_STANDARD 17)
+
 
 include(CheckSymbolExists)
 include(CheckCXXSymbolExists)
@@ -45,11 +47,12 @@ endif ()
 
 add_subdirectory(third_party)
 
-#find_package(ZLIB REQUIRED)
-#find_package(BZip2)
-#find_package(LibLZMA)
-#find_package(CURL)
-#find_package(Threads)
+find_package(ZLIB REQUIRED)
+find_package(BZip2)
+find_package(LibLZMA)
+find_package(CURL)
+find_package(Threads)
+find_package(OpenSSL)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -64,12 +67,15 @@ find_path(
             "${CMAKE_CURRENT_SOURCE_DIR}"
             "${OneDirectoryAboveWhereWeAre}"
             "${DIRECTORIES_IN_POTENTIAL_HTSLIB_LOCATION}"
+            "${HTSLIB_INSTALL_PREFIX}" # alias
 )
 if (NOT HTS_INSTALL_PREFIX)
     message(WARNING "Could not automatically locate\
-path to htslib. Please provide the path to the install\
-tree for htslib. If you add this directory to PATH or install\
-htslib in a system directory (/usr/local or C:/Program Files) it will\
+ path to htslib. Please provide the path to the install\
+ tree for htslib to
+-DHTS_INSTALL_PREFIX=/path/to/htslib/install/prefix
+ If you add this directory to PATH or install\
+ htslib in a system directory (/usr/local or C:/Program Files) it will\
 be found automatically. ")
 endif ()
 
@@ -129,7 +135,10 @@ check_include_file(ncurses/curses.h HAVE_NCURSES_CURSES_H)
 
 #/* Define to 1 if <ncurses.h> is present */
 set(HAVE_NCURSES_H)
-check_include_file(ncurses.h HAVE_CURSES)
+check_include_file(ncurses.h HAVE_CURSES_H)
+
+#/* Define to 1 if <regex.h> is present */
+check_include_file(regex.h HAVE_REGEX_H)
 
 #/* Define to the address where bug reports for this package should be sent. */
 set(PACKAGE_BUGREPORT)
@@ -251,12 +260,14 @@ target_link_libraries(${target}-static PUBLIC ${LINK_LIBRARIES})
 target_include_directories(${target}-static PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(${target}-static PUBLIC SAMTOOLS_STATIC_DEFINE)
 
+#set_target_properties(${target}-static PROPERTIES CXX_STANDARD 17)
 
 # build shared library
 add_library(${target} SHARED ${SOURCES})
 target_link_libraries(${target} PUBLIC ${LINK_LIBRARIES})
 target_include_directories(${target} PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(${target} PRIVATE SAMTOOLS_EXPORT)
+#set_target_properties(${target} PROPERTIES CXX_STANDARD 17)
 
 include(GenerateExportHeader)
 generate_export_header(${target})

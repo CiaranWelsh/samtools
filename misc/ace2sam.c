@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <zlib.h>
 #include "htslib/kstring.h"
 #include "htslib/kseq.h"

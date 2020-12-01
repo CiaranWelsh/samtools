@@ -29,7 +29,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <stdarg.h>
 #include <htslib/sam.h>
 #include "bam2bcf.h"

@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <config.h>
 
 #include <string.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include "htslib/faidx.h"
 #include "sam.h"
 

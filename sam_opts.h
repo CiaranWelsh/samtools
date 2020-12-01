@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <stdio.h>
 #include <limits.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 #include <htslib/hts.h>
 
 typedef struct sam_global_args {

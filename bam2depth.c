@@ -36,7 +36,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <string.h>
 #include <stdio.h>
 #include <limits.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include "htslib/sam.h"
 #include "samtools.h"
 #include "bedidx.h"

@@ -41,11 +41,19 @@ DEALINGS IN THE SOFTWARE.  */
 #include <curses.h>
 #else
 // Have the library, but no header file
-#warning "Curses header file not found; tview with curses is disabled."
+#ifdef _MSC_VER
+#   pragma message("Curses header file not found; tview with curses is disabled.")
+#else
+#   warning "Curses header file not found; tview with curses is disabled."
+#endif
 #undef HAVE_CURSES
 #endif
 #else
-#warning "No curses library is available; tview with curses is disabled."
+#ifdef _MSC_VER
+#   pragma message ("No curses library is available; tview with curses is disabled.")
+#   else
+#   warning "No curses library is available; tview with curses is disabled."
+#   endif
 #endif
 
 #ifdef HAVE_CURSES

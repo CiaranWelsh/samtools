@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <htslib/sam.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 
 /* File status flags (zero means OK). It's possible for more than one to be
  * set on a single file.   The final exit status is the bitwise-or of the

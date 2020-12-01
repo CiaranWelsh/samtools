@@ -39,8 +39,8 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
-#include <getopt.h>
-#include <unistd.h>
+#include <linux2win/linux2win_getopt.h>
+#include <linux2win/linux2win_unistd.h>
 #include <math.h>
 
 #include <htslib/sam.h>

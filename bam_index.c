@@ -33,8 +33,8 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdio.h>
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
-#include <unistd.h>
-#include <getopt.h>
+#include <linux2win/linux2win_unistd.h>
+#include <linux2win/linux2win_getopt.h>
 
 #include "samtools.h"
 #include "sam_opts.h"

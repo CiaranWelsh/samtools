@@ -35,7 +35,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdbool.h>
 #include <limits.h>
 #include <assert.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 
 typedef enum {
     overwrite_all,

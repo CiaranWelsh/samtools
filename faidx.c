@@ -35,10 +35,10 @@ History:
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 #include <limits.h>
 #include <htslib/faidx.h>
 #include <htslib/hts.h>

@@ -27,12 +27,12 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
+#include <linux2win/linux2win_strings.h>
 #include <stdbool.h>
 #include <ctype.h>
 #include <assert.h>
 #include <inttypes.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 
 #include "htslib/sam.h"
 #include "htslib/klist.h"

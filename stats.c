@@ -39,7 +39,7 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <config.h>
 
-#include <unistd.h> // for isatty()
+#include <linux2win/linux2win_unistd.h> // for isatty()
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -47,7 +47,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <math.h>
 #include <ctype.h>
 #include <inttypes.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 #include <errno.h>
 #include <assert.h>
 #include <zlib.h>   // for crc32

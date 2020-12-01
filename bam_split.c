@@ -29,8 +29,9 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdlib.h>
 #include <stdbool.h>
 #include <limits.h>
-#include <unistd.h>
-#include <regex.h>
+#include <linux2win/linux2win_unistd.h>
+
+
 #include <assert.h>
 #include <htslib/sam.h>
 #include <htslib/khash.h>

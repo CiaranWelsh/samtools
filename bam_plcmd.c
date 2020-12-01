@@ -28,14 +28,14 @@ DEALINGS IN THE SOFTWARE.  */
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <ctype.h>
 #include <string.h>
-#include <strings.h>
+#include <linux2win/linux2win_strings.h>
 #include <limits.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 #include <inttypes.h>
 #include <htslib/sam.h>
 #include <htslib/faidx.h>

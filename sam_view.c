@@ -27,12 +27,12 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
+#include <linux2win/linux2win_strings.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <math.h>
 #include <inttypes.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 #include "htslib/sam.h"
 #include "htslib/faidx.h"
 #include "htslib/khash.h"

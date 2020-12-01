@@ -41,7 +41,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <math.h>    // round
 #include <stdbool.h>
 #include <string.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <assert.h>
 
 #ifdef _WIN32
@@ -217,7 +217,12 @@ void print_hist(FILE *file_out, const sam_hdr_t *h, const stats_aux_t *stats, in
     double region_len = stats[tid].end - stats[tid].beg;
 
     // Calculate histogram that contains percent covered
-    double hist_data[hist_size];
+
+//    double hist_data[hist_size];
+
+    double* hist_data = (double*) malloc(hist_size);
+
+
     double max_val = 0.0;
     for (i = 0; i < hist_size; ++i) {
         hist_data[i] = 100 * hist[i] / (double) stats[tid].bin_width;
@@ -280,6 +285,8 @@ void print_hist(FILE *file_out, const sam_hdr_t *h, const stats_aux_t *stats, in
     int last_padding = hist_size%10;
     fprintf(file_out, "%*s%s", last_padding, " ", center_text(readable_bps(stats[tid].end, buf), buf2, 10));
     fprintf(file_out, "\n");
+
+    free(hist_data);
 }
 
 int main_coverage(int argc, char *argv[]) {

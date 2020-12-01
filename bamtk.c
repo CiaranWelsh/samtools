@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <config.h>
 
 #include <stdio.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <fcntl.h>
 #include <string.h>
 

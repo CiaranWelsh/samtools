@@ -30,7 +30,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include "htslib/thread_pool.h"
 #include "sam_opts.h"
 #include "htslib/kstring.h"

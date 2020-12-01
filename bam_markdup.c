@@ -32,7 +32,7 @@ Copyright (c) 2009,2018 The Broad Institute.  MIT license.
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <ctype.h>
 #include <time.h>
 #include <sys/stat.h>

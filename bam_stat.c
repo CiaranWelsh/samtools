@@ -24,13 +24,13 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include <config.h>
 
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <limits.h>
-#include <getopt.h>
+#include <linux2win/linux2win_getopt.h>
 
 #include "htslib/sam.h"
 #include "samtools.h"

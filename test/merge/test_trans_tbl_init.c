@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.  */
 
 #include "../../bam_sort.c"
 #include <assert.h>
-#include <regex.h>
+#include <linux2win/linux2win_regex.h>
 #include <inttypes.h>
 
 typedef struct refseq_info {

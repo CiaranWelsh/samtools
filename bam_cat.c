@@ -38,9 +38,10 @@ Illumina.
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <string.h>
-#include <strings.h>
+#include "linux2win/linux2win_strings.h" // includes cross platform string
+
 
 #include "htslib/bgzf.h"
 #include "htslib/sam.h"

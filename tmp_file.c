@@ -29,7 +29,7 @@ DEALINGS IN THE SOFTWARE
 
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <fcntl.h>

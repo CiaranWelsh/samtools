@@ -30,7 +30,7 @@ DEALINGS IN THE SOFTWARE.  */
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <inttypes.h>
 
 void dump_read(bam1_t* b) {

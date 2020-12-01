@@ -34,7 +34,7 @@
 #include <time.h>
 #include <assert.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <linux2win/linux2win_unistd.h>
 #include <stdint.h>
 #include <ctype.h>
 #include <string.h>
