@@ -30,14 +30,15 @@ DEALINGS IN THE SOFTWARE.  */
 
 typedef enum {IN,OUT,OTHER} isize_insert_t;
 
-//static int max(int a, int b) {
-//    if (a < b) {
-//        return b;
-//    } else {
-//        return a;
-//    }
-//}
-
+#ifndef max
+static int max(int a, int b) {
+    if (a < b) {
+        return b;
+    } else {
+        return a;
+    }
+}
+#endif
 static isize_sparse_record_t * sparse_get_f(isize_data_t data, int at) {
     isize_sparse_data_t *a = data.sparse;
     khash_t(m32) *h = a->array;

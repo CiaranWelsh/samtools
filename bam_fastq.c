@@ -703,7 +703,7 @@ static bool init_state(const bam2fq_opts_t* opts, bam2fq_state_t** state_out)
     state->taglist = kl_init(ktaglist);
     if (opts->extra_tags) {
         char *save_p;
-        char *s = strtok_r(opts->extra_tags, ",", &save_p);
+        char *s = strtok_s(opts->extra_tags, ",", &save_p);
         while (s) {
             if (strlen(s) != 2) {
                 fprintf(stderr, "Parsing extra tags - '%s' is not two characters\n", s);
@@ -712,7 +712,7 @@ static bool init_state(const bam2fq_opts_t* opts, bam2fq_state_t** state_out)
             }
             char **et = kl_pushp(ktaglist, state->taglist);
             *et = s;
-            s = strtok_r(NULL, ",", &save_p);
+            s = strtok_s(NULL, ",", &save_p);
         }
     }
 

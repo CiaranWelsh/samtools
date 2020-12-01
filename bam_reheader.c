@@ -30,6 +30,8 @@ DEALINGS IN THE SOFTWARE.  */
 #include <assert.h>
 #include <linux2win/linux2win_getopt.h>
 #include <linux2win/linux2win_unistd.h>
+#include <linux2win/linux2win_popen.h>
+#include <linux2win/linux2win_mkstemp.h>
 
 #include "htslib/bgzf.h"
 #include "htslib/sam.h"
@@ -481,7 +483,7 @@ static sam_hdr_t* external_reheader(samFile* in, const char* external) {
         fprintf(stderr, "[%s] failed to create command string.\n", __func__);
         goto cleanup;
     }
-    FILE* nh = popen(command, "r");
+    FILE* nh = _popen(command, "r");
     if (!nh) {
         print_error_errno("reheader", "[%s] failed to run external command '%s'.\n", __func__, command);
         goto cleanup;
@@ -508,7 +510,7 @@ static sam_hdr_t* external_reheader(samFile* in, const char* external) {
     if (h == NULL) {
         fprintf(stderr, "[%s] failed to read the header from the temp file.\n", __func__);
     }
-    int res = pclose(nh);
+    int res = _pclose(nh);
     if (res != 0) {
         if (res < 0) {
             print_error_errno("reheader",

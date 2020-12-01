@@ -47,12 +47,26 @@ endif ()
 
 add_subdirectory(third_party)
 
+find_package(BZip2 REQUIRED)
+find_package(LibLZMA REQUIRED)
 find_package(ZLIB REQUIRED)
-find_package(BZip2)
-find_package(LibLZMA)
-find_package(CURL)
-find_package(Threads)
+find_package(CURL REQUIRED)
+find_package(lz4 CONFIG REQUIRED)
+# note, it seems that on windows and linux, openssl is a requirement for HMAC
+# while on apple we instead need common crypto (a note from from htslib cmake script)
 find_package(OpenSSL)
+
+# This was akward. Installed on vcpkg then went to
+# D:\vcpkg\installed\x64-windows-static\share\pthread
+# to figure out what variables pthreads imports.
+# Looks like PThreads4W_LIBRARY_RELEASE holds our release library
+if (WIN32)
+    find_package(pthreads CONFIG REQUIRED)
+else()
+    # on linux this works fine but doesn't work on windows
+    find_package(Threads REQUIRED)
+endif ()
+
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -84,6 +98,36 @@ set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "${HTS_INSTALL_PREFIX}/lib/cmake/ht
 
 
 find_package(HTS CONFIG REQUIRED)
+
+
+# find bcftools
+find_path(
+        BCFTOOLS_INSTALL_PREFIX
+        NAMES
+            lib/${CMAKE_SHARED_LIBRARY_PREFIX}bcftools${CMAKE_SHARED_LIBRARY_SUFFIX}
+            include/bcftools/bcftools.h
+        PATHS
+            "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${OneDirectoryAboveWhereWeAre}"
+            "${DIRECTORIES_IN_POTENTIAL_BCFTOOLSLIB_LOCATION}"
+            "${BCFTOOLSLIB_INSTALL_PREFIX}" # alias
+)
+if (NOT BCFTOOLS_INSTALL_PREFIX)
+    message(WARNING "Could not automatically locate\
+ path to bcftools. Please provide the path to the install\
+ tree for bcftools to
+-DBCFTOOLS_INSTALL_PREFIX=/path/to/bcftools/install/prefix
+ If you add this directory to PATH or install\
+ bcftools in a system directory (/usr/local or C:/Program Files) it will\
+be found automatically. ")
+endif ()
+
+message(STATUS "BCFTOOLS_INSTALL_PREFIX: ${BCFTOOLS_INSTALL_PREFIX}/lib/cmake/bcftools")
+set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "${BCFTOOLS_INSTALL_PREFIX}/lib/cmake/bcftools")
+
+
+find_package(bcftools CONFIG REQUIRED)
+
 
 
 #/* Define to 1 if a SysV or X/Open compatible Curses library is present */
@@ -246,13 +290,47 @@ set(
 
 set(target samtools)
 
+set(LINK_LIBRARIES)
+set(INCLUDE_DIRECTORIES)
+if ("${BZip2_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} BZip2::BZip2)
+endif ()
+if ("${LibLZMA_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} LibLZMA::LibLZMA)
+endif ()
+if ("${ZLIB_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} ZLIB::ZLIB)
+endif ()
+if ("${CURL_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} CURL::libcurl)
+endif ()
+if (${Threads_FOUND})
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} Threads::Threads)
+endif ()
+message(STATUS "lz4_FOUND ${lz4_FOUND}")
+if (${lz4_FOUND})
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} lz4::lz4   )
+endif ()
+if ("${OpenSSL_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} OpenSSL::SSL OpenSSL::Crypto)
+    set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} "${OPENSSL_INCLUDE_DIR}")
+endif ()
+if ("${PThreads4W_FOUND}")
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} $<IF:$<CONFIG:Debug>,${PThreads4W_LIBRARY_DEBUG},${PThreads4W_LIBRARY_RELEASE}>)
+    set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} "${PThreads4W_INCLUDE_DIR}")
+endif ()
+message(STATUS "PThreads4W_LIBRARY_RELEASE ${PThreads4W_LIBRARY_RELEASE}")
+
 set(
-        INCLUDE_DIRECTORIES
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+        INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<INSTALL_INTERFACE:include> #relative to install tree
 )
 
-set(LINK_LIBRARIES HTS::hts linux2win)
+# note, due to not properly EXPORTing functions from htslib and bcftools
+#   only the static versions of these dependencies will work right now.
+set(LINK_LIBRARIES ${LINK_LIBRARIES} HTS::hts-static bcftools::bcftools-static linux2win )
 
 # build static library
 add_library(${target}-static STATIC ${SOURCES})
@@ -260,19 +338,42 @@ target_link_libraries(${target}-static PUBLIC ${LINK_LIBRARIES})
 target_include_directories(${target}-static PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(${target}-static PUBLIC SAMTOOLS_STATIC_DEFINE)
 
-#set_target_properties(${target}-static PROPERTIES CXX_STANDARD 17)
-
 # build shared library
 add_library(${target} SHARED ${SOURCES})
+message(STATUS "LINK_LIBRARIES ${LINK_LIBRARIES}")
 target_link_libraries(${target} PUBLIC ${LINK_LIBRARIES})
 target_include_directories(${target} PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(${target} PRIVATE SAMTOOLS_EXPORT)
-#set_target_properties(${target} PROPERTIES CXX_STANDARD 17)
 
 include(GenerateExportHeader)
 generate_export_header(${target})
 
 
+install(TARGETS
+            ${target} ${target}-static linux2win
+        EXPORT ${target}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(EXPORT
+            ${target}
+        DESTINATION
+            "${CMAKE_INSTALL_LIBDIR}/cmake/${target}"
+        NAMESPACE
+            ${target}::
+        FILE
+            ${target}-config.cmake
+        )
+
+file(GLOB SAMTOOLS_HEADERS *.h)
+
+install(FILES
+            ${SAMTOOLS_HEADERS}
+        DESTINATION
+            "${CMAKE_INSTALL_INCLUDEDIR}/${target}"
+        )
 
 
 
