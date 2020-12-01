@@ -209,7 +209,7 @@ static int build_auxlist(mplp_conf_t *conf, char *optstring) {
         return 1;
 
     char *save_p;
-    char *tag = strtok_r(optstring, ",", &save_p);
+    char *tag = strtok_s(optstring, ",", &save_p);
     while (tag) {
         if (khash_str2int_get(colhash, tag, &f) == 0) {
             conf->flag |= f;
@@ -221,7 +221,7 @@ static int build_auxlist(mplp_conf_t *conf, char *optstring) {
                 *tag_p = tag;
             }
         }
-        tag = strtok_r(NULL, ",", &save_p);
+        tag = strtok_s(NULL, ",", &save_p);
     }
 
     khash_str2int_destroy(colhash);
